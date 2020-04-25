@@ -2,6 +2,8 @@ package com.yaroshevich.podacha.repositories
 
 interface repository<T> {
 
+
+
     fun getAll():List<T>
 
     fun create(item: T)

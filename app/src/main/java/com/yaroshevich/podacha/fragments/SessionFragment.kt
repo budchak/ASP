@@ -22,7 +22,7 @@ class SessionFragment: BaseFragment(), BaseAdapter.ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var adapter = SessionAdapter()
+        val adapter = SessionAdapter()
         adapter.apply {
             listener = this@SessionFragment
             items = SessionRepository().getAll() as MutableList<Session>

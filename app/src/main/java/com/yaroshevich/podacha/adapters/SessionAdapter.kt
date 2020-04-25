@@ -14,6 +14,8 @@ import java.util.*
 
 
 class SessionAdapter : BaseAdapter<Session>() {
+
+
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SessionViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_session, parent, false))
     }
