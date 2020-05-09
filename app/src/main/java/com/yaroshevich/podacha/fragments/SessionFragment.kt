@@ -11,9 +11,11 @@ import com.yaroshevich.podacha.models.Session
 import com.yaroshevich.podacha.repositories.SessionRepository
 import kotlinx.android.synthetic.main.fragment_session.*
 
-class SessionFragment: BaseFragment(), BaseAdapter.ItemClickListener {
+class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
+
+
     override fun onItemClick(id: Int) {
-        Toast.makeText(context, "Click",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
     }
 
     override fun getLayout() = R.layout.fragment_session
