@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_graph" app:startDestination="@id/authorizationFragment">
+
+    <fragment android:id="@+id/authorizationFragment"
+              android:name="com.yaroshevich.podacha.fragments.AuthorizationFragment"
+              android:label="AuthorizationFragment">
+        <action android:id="@+id/action_authorizationFragment_to_sessionFragment"
+                app:destination="@id/sessionFragment"/>
+    </fragment>
+    <fragment android:id="@+id/sessionFragment" android:name="com.yaroshevich.podacha.fragments.SessionFragment"
+              android:label="SessionFragment"/>
+</navigation>

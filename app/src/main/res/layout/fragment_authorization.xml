@@ -8,26 +8,17 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient_logo">
 
-    <TextView
-            android:text="ВХОД"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" android:textStyle="bold"
-            android:textAlignment="center" android:textSize="32sp" app:layout_constraintHorizontal_bias="0.498"
-            android:textColor="@color/colorText"/>
     <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                                 android:id="@+id/guideline2"
                                                 android:orientation="horizontal"
                                                 app:layout_constraintGuide_percent="0.3"/>
     <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:layout_height="50dp"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" app:cardCornerRadius="15dp"
-            android:id="@+id/cardView3">
+            android:layout_marginStart="17dp" android:layout_marginEnd="17dp" app:cardCornerRadius="5dp"
+            android:id="@+id/cardView3" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7" app:layout_constraintTop_toTopOf="@+id/guideline2">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -62,7 +53,7 @@
                         android:layout_alignParentTop="true"
                         app:srcCompat="@drawable/ic_brightness_1_black_24dp"
                         android:id="@+id/imageView5"
-                        android:layout_marginTop="13dp" android:layout_alignParentEnd="true"
+                        android:layout_marginTop="15dp" android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"/>
                 <ImageView
                         android:layout_width="24dp"
@@ -79,11 +70,11 @@
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp" android:id="@+id/cardView2"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="17dp" android:id="@+id/cardView2"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp" app:cardCornerRadius="15dp">
+            android:layout_marginEnd="17dp"
+            android:layout_marginTop="16dp" app:cardCornerRadius="5dp">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -119,30 +110,43 @@
             android:layout_height="80dp" app:srcCompat="@drawable/logi"
             android:id="@+id/imageView7" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/textView" android:scaleType="fitXY"
-            app:layout_constraintHorizontal_bias="0.498" app:layout_constraintVertical_bias="0.9"/>
+            android:layout_marginTop="92dp" app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="fitXY"
+            app:layout_constraintHorizontal_bias="0.485"/>
     <Button
-            android:text="войти"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style=""
-            android:id="@+id/loginButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="28dp" app:layout_constraintTop_toBottomOf="@+id/forgotButton"
-            app:layout_constraintHorizontal_bias="0.498"/>
-    <Button
-            android:text="забыли пороль?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/forgotButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/cardView2"/>
+            android:text="Войти"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            style="@style/MaterialButton"
+            android:id="@+id/loginButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="14dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="14dp"
+            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            android:layout_marginTop="28dp" android:textAlignment="center" android:textSize="30sp"
+            android:textColor="@color/design_default_color_background" android:textAllCaps="false"/>
     <Button
             android:text="Зарегистрироваться"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/registrationButton" android:layout_marginBottom="28dp"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            android:id="@+id/registrationButton"
+            android:layout_marginBottom="16dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.469"
+            style="@style/App.MaterialButton.outlineButton"
+            android:textSize="24sp"
+            android:textColor="@color/colorText"/>
+    <Button
+            android:text="Забыли пароль?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            style="@style/Widget.MaterialComponents.Button.TextButton" android:textSize="18sp"
+            android:textColor="@color/colorText" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAllCaps="false"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

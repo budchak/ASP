@@ -6,6 +6,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint"> #31C6B1</item>
+    </style>
+
+    <style name="App.MaterialButton.outlineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor"> #FFFF33</item>
     </style>
 
 </resources>

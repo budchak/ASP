@@ -22,13 +22,8 @@ class AuthorizationFragment : BaseFragment() {
         var app = activity?.application as App
 
         view.apply {
-            forgotButton.setOnClickListener {
 
-            }
 
-            registrationButton.setOnClickListener {
-
-            }
 
             loginButton.setOnClickListener {
                 val login = loginEditText.text.toString()
