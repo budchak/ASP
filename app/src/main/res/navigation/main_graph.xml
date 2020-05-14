@@ -11,4 +11,10 @@
     </fragment>
     <fragment android:id="@+id/sessionFragment" android:name="com.yaroshevich.podacha.fragments.SessionFragment"
               android:label="SessionFragment"/>
+    <fragment android:id="@+id/workFragment" android:name="com.yaroshevich.podacha.fragments.WorkFragment"
+              android:label="WorkFragment"/>
+    <fragment android:id="@+id/panelListFragment" android:name="com.yaroshevich.podacha.fragments.PanelListFragment"
+              android:label="PanelListFragment"/>
+    <fragment android:id="@+id/panelDetailFragment" android:name="com.yaroshevich.podacha.fragments.PanelDetailFragment"
+              android:label="PanelDetailFragment"/>
 </navigation>

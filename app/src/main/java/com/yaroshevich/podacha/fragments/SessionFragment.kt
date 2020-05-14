@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.adapters.SessionAdapter
@@ -37,4 +38,7 @@ class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
 
         }
     }
+
+
+
 }

@@ -12,9 +12,10 @@ import com.yaroshevich.podacha.fragments.WorkFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.yaroshevich.podacha.interfaces.Navigator
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Navigator {
 
     var navController: NavController? = null
 
@@ -22,16 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, AuthorizationFragment())
-            .commit()
 
         toolbar.visibility = View.GONE
         setStatusBarColor(1)
-        // setSupportActionBar(toolbar)
+        //
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -42,10 +40,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_add -> supportFragmentManager.beginTransaction().replace(
-                R.id.container,
-                WorkFragment()
-            ).commit()
+            R.id.action_add -> navigate(R.id.workFragment)
+
         }
 
         return true
@@ -55,13 +51,44 @@ class MainActivity : AppCompatActivity() {
     fun setStatusBarColor(color: Int) {
         val window = this.getWindow()
 
-
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-// finally change the color
         window.setStatusBarColor(this.getResources().getColor(R.color.colorReg))
     }
+
+
+    override fun navigate(screen: Int) {
+        when(screen){
+            R.id.sessionFragment -> navigateToSessionScreen(screen)
+            R.id.workFragment -> navigateToWorkScreen(screen)
+            R.id.panelDetailFragment -> navigateToPanelDetailScreen(screen)
+            R.id.panelListFragment -> navigateToPanelListScreen(screen)
+        }
+    }
+
+    //Navigation
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    fun navigateToSessionScreen(id: Int){
+        toolbar.background = getDrawable(R.color.colorReg)
+        toolbar.visibility = View.VISIBLE
+        setSupportActionBar(toolbar)
+        navController?.navigate(id)
+
+    }
+
+    fun navigateToPanelDetailScreen(id: Int){
+        navController?.navigate(id)
+    }
+
+    fun navigateToPanelListScreen(id: Int){
+        navController?.navigate(id)
+    }
+
+    fun navigateToWorkScreen(id: Int){
+        navController?.navigate(id)
+    }
+
 }

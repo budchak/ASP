@@ -3,14 +3,29 @@ package com.yaroshevich.podacha.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.models.PodachaItem
+import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.header_work.view.*
 
-class WorkAdapter : BaseAdapter<PodachaItem>(), WorkHeaderHolder.Click {
-    override fun click(item: PodachaItem) {
-        add(item)
+class WorkAdapter : BaseAdapter<Work>(), WorkHeaderHolder.Click {
+
+    var listenerHeader: WorkHeaderHolder.Click? = null
+
+    override fun click() {
+        listenerHeader?.click()
+
+    }
+
+    fun setListener(listener: WorkHeaderHolder.Click){
+        listenerHeader = listener
+    }
+
+    fun setData(list: List<Work> ){
+        this.items = list as MutableList<Work>
+        notifyDataSetChanged()
     }
 
 
@@ -30,23 +45,23 @@ class WorkAdapter : BaseAdapter<PodachaItem>(), WorkHeaderHolder.Click {
         return items.size + 1
     }
 
-    fun add(item: PodachaItem) {
+    fun add(item: Work) {
         items.add(item)
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(position){
-            0 -> (holder as WorkHeaderHolder).bind(PodachaItem(0, "sfd", 0,2), listener)
+            0 ->  (holder as WorkHeaderHolder).bind(Work(panelId = 2, color = 2, number = 2), listener)
             else -> (holder as WorkViewHolder).bind(items[position-1], listener)
         }
 
     }
 
-    class WorkViewHolder(view: View) : RecyclerView.ViewHolder(view), Binder<PodachaItem> {
+    class WorkViewHolder(view: View) : RecyclerView.ViewHolder(view), Binder<Work> {
 
 
-        override fun bind(item: PodachaItem, listener: ItemClickListener?) {
+        override fun bind(item: Work, listener: ItemClickListener?) {
 
         }
 
@@ -55,17 +70,18 @@ class WorkAdapter : BaseAdapter<PodachaItem>(), WorkHeaderHolder.Click {
 }
 
 class WorkHeaderHolder(view: View, var listener: Click) : RecyclerView.ViewHolder(view),
-    BaseAdapter.Binder<PodachaItem> {
-    override fun bind(item: PodachaItem, listener: BaseAdapter.ItemClickListener?) {
+    BaseAdapter.Binder<Work> {
+
+    override fun bind(item: Work, listener: BaseAdapter.ItemClickListener?) {
 
         itemView.addButton.setOnClickListener { v ->
-            this.listener.click(PodachaItem(2, "Adff", 2, 2))
+            this.listener.click()
         }
 
     }
 
     interface Click {
-        fun click(item: PodachaItem)
+        fun click()
     }
 
 }

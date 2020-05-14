@@ -12,7 +12,7 @@ class SessionRepository : repository<Session> {
 
         var calendar = Calendar.getInstance()
         var date = calendar.time
-            while (i++ < 100) {
+            while (i++ < 5) {
                 date = calendar.time
                 session.add(Session(i, "name" + i, date))
 
