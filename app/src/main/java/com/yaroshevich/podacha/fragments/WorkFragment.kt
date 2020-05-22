@@ -25,36 +25,11 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
     override fun click() {
         Toast.makeText(context, "ntrcn", Toast.LENGTH_SHORT).show()
         navigator?.navigate(R.id.panelDetailFragment)
-        //context?.let { createDialog(it) }
+
 
     }
 
-    fun createDialog(context: Context) {
 
-
-        val builder = AlertDialog.Builder(context)
-
-        val view = layoutInflater.inflate(R.layout.dialog_add_work_element, null, false)
-
-
-        builder.apply {
-            setTitle("Модель")
-            setView(view)
-
-
-            setPositiveButton(android.R.string.yes) { dialog, which ->
-
-
-            }
-
-            setNegativeButton(android.R.string.no) { dialog, which ->
-
-            }
-
-            show()
-        }
-
-    }
 
     private val model: WorkViewModel by activityViewModels()
 
@@ -70,8 +45,12 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
 
             this.adapter = adapter
             layoutManager = LinearLayoutManager(context)
-
+            applyButton.setOnClickListener {
+                model.saveSession()
+                navigator?.navigate(R.id.sessionFragment)
+            }
         }
+
         model.getWork()?.observe(viewLifecycleOwner, Observer {
             adapter.setData(it)
         })

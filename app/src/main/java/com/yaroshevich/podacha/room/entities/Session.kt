@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Session(@PrimaryKey
+class Session(@PrimaryKey(autoGenerate = true)
               var id: Int, var name: String, var date: String) {
 
 

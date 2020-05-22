@@ -1,24 +1,25 @@
 package com.yaroshevich.podacha.adapters
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.yaroshevich.podacha.App
 import com.yaroshevich.podacha.R
-
-import com.yaroshevich.podacha.models.Session
+import com.yaroshevich.podacha.room.entities.Session
 import kotlinx.android.synthetic.main.item_session.view.*
-import java.util.*
-
-
 
 
 class SessionAdapter : BaseAdapter<Session>() {
 
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return SessionViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_session, parent, false))
+        return SessionViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_session, parent, false)
+        )
     }
+
 
 
     class SessionViewHolder(view: View) : RecyclerView.ViewHolder(view), Binder<Session> {
@@ -26,25 +27,20 @@ class SessionAdapter : BaseAdapter<Session>() {
 
         override fun bind(item: Session, listener: ItemClickListener?) {
             itemView.apply {
-                cardView.setOnClickListener { v ->
-                    if (listener != null) listener.onItemClick(item.id)
+                name.text= item.name
+
+                container.setOnClickListener {
+                   listener?.onItemClick(2)
                 }
-
-                val calendar = Calendar.getInstance()
-                calendar.setTime(item.date)
-
-                date.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
-                day.text =  switchDay(calendar.get(Calendar.DAY_OF_WEEK))
-                name.text = item.name
             }
 
 
         }
 
 
-        fun switchDay(item: Int)=
+        fun switchDay(item: Int) =
 
-            when(item){
+            when (item) {
 
                 1 -> "ВС"
                 2 -> "ПН"
@@ -55,7 +51,7 @@ class SessionAdapter : BaseAdapter<Session>() {
                 7 -> "СБ"
 
 
-                else ->  "[p"
+                else -> "[p"
             }
 
     }

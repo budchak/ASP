@@ -1,23 +1,33 @@
 package com.yaroshevich.podacha
 
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import com.yaroshevich.podacha.fragments.AuthorizationFragment
 import com.yaroshevich.podacha.fragments.WorkFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.yaroshevich.podacha.adapters.BaseAdapter
+import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.interfaces.Navigator
+import com.yaroshevich.podacha.room.entities.Panel
+import com.yaroshevich.podacha.viewModel.WorkViewModel
+import kotlinx.android.synthetic.main.dialog_add_panel.view.*
 
 
-class MainActivity : AppCompatActivity(), Navigator {
+class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapter.ItemClickListener  {
 
     var navController: NavController? = null
+    private val model: WorkViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +72,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun navigate(screen: Int) {
         when(screen){
             R.id.sessionFragment -> navigateToSessionScreen(screen)
+
             R.id.workFragment -> navigateToWorkScreen(screen)
             R.id.panelDetailFragment -> navigateToPanelDetailScreen(screen)
             R.id.panelListFragment -> navigateToPanelListScreen(screen)
@@ -91,4 +102,43 @@ class MainActivity : AppCompatActivity(), Navigator {
         navController?.navigate(id)
     }
 
+    fun navigateToAddPanelDialog(id:Int){
+        navController?.navigate(id)
+    }
+
+
+
+    //listeners
+    /////////////////////////////////////////////////////////
+
+    override fun click(id: Int) {
+        when(id){
+            1 -> true
+            2 -> createAddPanelDialog()
+
+
+        }
+    }
+
+    override fun onItemClick(id: Int) {
+        TODO("Not yet implemented")
+    }
+
+    //Dialogs
+    ///////////////////////////////////////////////////////////////////
+
+    fun createAddPanelDialog(){
+        val dialog = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_add_panel, null, false)
+        dialog.apply {
+            setView(view)
+            setPositiveButton("Принять", DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
+                model.addPanel(Panel(0, view.name.text.toString()))
+            })
+
+
+0        }
+
+        dialog.show()
+    }
 }

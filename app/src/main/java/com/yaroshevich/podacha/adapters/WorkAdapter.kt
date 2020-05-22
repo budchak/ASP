@@ -7,10 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.models.PodachaItem
+import com.yaroshevich.podacha.repositories.PanelRepository
 import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.header_work.view.*
+import kotlinx.android.synthetic.main.item_work.view.*
+import kotlinx.coroutines.withTimeoutOrNull
 
-class WorkAdapter : BaseAdapter<Work>(), WorkHeaderHolder.Click {
+class WorkAdapter : BaseAdapter<Work>(), WorkHeaderHolder.Click{
 
     var listenerHeader: WorkHeaderHolder.Click? = null
 
@@ -52,8 +55,8 @@ class WorkAdapter : BaseAdapter<Work>(), WorkHeaderHolder.Click {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(position){
-            0 ->  (holder as WorkHeaderHolder).bind(Work(panelId = 2, color = 2, number = 2), listener)
-            else -> (holder as WorkViewHolder).bind(items[position-1], listener)
+            0 ->  (holder as WorkHeaderHolder).bind(Work(panelId = 2, color = 2, number = 2, sessionID = 0), getListener())
+            else -> (holder as WorkViewHolder).bind(items[position-1], getListener())
         }
 
     }
@@ -62,7 +65,10 @@ class WorkAdapter : BaseAdapter<Work>(), WorkHeaderHolder.Click {
 
 
         override fun bind(item: Work, listener: ItemClickListener?) {
-
+            itemView.apply {
+                val panelRepo = PanelRepository()
+                name.setText(panelRepo?.getById(item.panelId)!!.name)
+            }
         }
 
     }

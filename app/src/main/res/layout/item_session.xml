@@ -15,40 +15,54 @@
             android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
             app:layout_constraintVertical_bias="0.0" android:id="@+id/cardView">
+
         <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             <TextView
+                    android:id="@+id/date"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
                     android:text="25"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/date" app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
-                    android:text="пят"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
                     android:id="@+id/day"
-                    app:layout_constraintTop_toBottomOf="@+id/date" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:text="пят"
+                    android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textAlignment="center" app:layout_constraintVertical_bias="0.0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date"
+                    app:layout_constraintVertical_bias="0.0" />
+
             <TextView
+                    android:id="@+id/divider"
                     android:layout_width="1dp"
                     android:layout_height="20dp"
-                    android:id="@+id/divider" android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toEndOf="@+id/date"
-                    android:background="#D5D0DA"/>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#D5D0DA"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/date"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
-                    android:text="Навеска"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name" app:layout_constraintStart_toEndOf="@+id/divider"
-                    android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Навеска"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/divider"
+                    app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

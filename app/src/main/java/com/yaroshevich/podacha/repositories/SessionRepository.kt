@@ -1,33 +1,26 @@
 package com.yaroshevich.podacha.repositories
 
-import com.yaroshevich.podacha.models.Session
+import com.yaroshevich.podacha.App
+import com.yaroshevich.podacha.room.entities.Session
+
 import java.util.*
 
 class SessionRepository : repository<Session> {
 
     var session: MutableList<Session> = mutableListOf()
-
-    init {
-        var i = 0
-
-        var calendar = Calendar.getInstance()
-        var date = calendar.time
-            while (i++ < 5) {
-                date = calendar.time
-                session.add(Session(i, "name" + i, date))
-
-                calendar.add(Calendar.DAY_OF_MONTH, 1)
-            }
+    val sessionDao = App.getInstance().database?.sessionDao()
 
 
+    override fun getAll(): MutableList<Session> {
+        return sessionDao!!.getAll() as MutableList<Session>
     }
 
-    override fun getAll(): List<Session> {
-        return session
-    }
+    fun getMaxId() =
+        App.getInstance().database?.sessionDao()?.getMaxId()
+
 
     override fun create(item: Session) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sessionDao?.insert(item)
     }
 
     override fun update(item: Session) {

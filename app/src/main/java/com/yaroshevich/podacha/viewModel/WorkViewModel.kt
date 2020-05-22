@@ -3,20 +3,87 @@ package com.yaroshevich.podacha.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.yaroshevich.podacha.repositories.PanelRepository
+import com.yaroshevich.podacha.repositories.SessionRepository
 import com.yaroshevich.podacha.repositories.WorkRepository
+import com.yaroshevich.podacha.room.entities.Panel
+import com.yaroshevich.podacha.room.entities.Session
 import com.yaroshevich.podacha.room.entities.Work
+import java.util.*
 
-class WorkViewModel: ViewModel() {
+class WorkViewModel : ViewModel() {
 
     val repository: WorkRepository = WorkRepository()
-    var list: LiveData<List<Work>>? = null
+    val panelRepository: PanelRepository = PanelRepository()
 
 
+    fun getPanelList() = panelRepository.getAll()
 
-    fun getWork(): LiveData<List<Work>>? = repository.getAll()
+    fun getPanel(id: Int) = panelRepository.getById(id)
 
-    fun setWork(work: Work){
-        repository.create(work)
+    fun addPanel(panel: Panel) {
+        panelRepository.create(panel)
     }
 
+    fun getWork(): LiveData<List<Work>>? = liveWorkList
+
+    fun getTempWork() = liveWork
+
+    fun setWork() {
+        liveWork.value = work2
+    }
+
+
+    var workList = mutableListOf<Work>()
+    var liveWorkList = MutableLiveData<List<Work>>()
+    var id = 0
+    var sessionRepository = SessionRepository()
+
+    var work2 = Work(0, 0, 0, 0, 0)
+
+    var liveWork = MutableLiveData<Work>()
+
+
+    fun setPanelId(id: Int) {
+        work2.panelId = id
+        setWork()
+    }
+
+    fun setPanelNumber(number: Int) {
+        work2.number = number
+        setWork()
+    }
+
+    fun setSessionID(id: Int) {
+        work2.sessionID = id
+        setWork()
+    }
+
+
+    fun saveSession() {
+        createSession()
+        val id = sessionRepository.getMaxId()
+        for (w in workList) {
+            if (id != null) {
+                w.sessionID = id
+            }
+            repository.create(w)
+
+        }
+        workList = mutableListOf()
+        liveWorkList.value = workList
+
+    }
+
+    fun createSession() {
+        sessionRepository.create(Session(0, "Подача", Calendar.getInstance().time.toString()))
+
+    }
+
+    fun addPanel() {
+        workList.add(work2)
+        liveWorkList.value = workList
+        work2 = Work(0, 0, 0, 0, 2)
+    }
 }
+

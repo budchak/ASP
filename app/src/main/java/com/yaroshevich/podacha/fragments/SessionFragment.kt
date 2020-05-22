@@ -3,6 +3,7 @@ package com.yaroshevich.podacha.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
@@ -10,10 +11,13 @@ import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.adapters.SessionAdapter
 import com.yaroshevich.podacha.models.Session
 import com.yaroshevich.podacha.repositories.SessionRepository
+import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.fragment_session.*
+import kotlinx.android.synthetic.main.item_work.*
 
 class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
 
+    private val model: WorkViewModel by activityViewModels()
 
     override fun onItemClick(id: Int) {
         Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
@@ -27,8 +31,8 @@ class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
 
         val adapter = SessionAdapter()
         adapter.apply {
-            listener = this@SessionFragment
-            items = SessionRepository().getAll() as MutableList<Session>
+            setListener(this@SessionFragment)
+            items = model.sessionRepository.getAll()
         }
 
 
