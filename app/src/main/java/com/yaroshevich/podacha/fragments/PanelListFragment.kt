@@ -47,6 +47,9 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
         clickListenerID = context as ClickListenerID
     }
 
+    override fun getName(): String {
+       return "PanelListFragment"
+    }
 
 
     override fun onItemClick(id: Int) {

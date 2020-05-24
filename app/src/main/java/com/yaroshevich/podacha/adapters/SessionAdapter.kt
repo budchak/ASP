@@ -30,7 +30,7 @@ class SessionAdapter : BaseAdapter<Session>() {
                 name.text= item.name
 
                 container.setOnClickListener {
-                   listener?.onItemClick(2)
+                   listener?.onItemClick(item.id)
                 }
             }
 

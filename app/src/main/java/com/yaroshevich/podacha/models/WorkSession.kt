@@ -3,7 +3,7 @@ package com.yaroshevich.podacha.models
 import java.util.*
 
 
-class Session() {
+class WorkSession() {
 
     private var name = ""
     private var date = Calendar.getInstance().time

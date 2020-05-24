@@ -16,6 +16,7 @@ class WorkViewModel : ViewModel() {
     val repository: WorkRepository = WorkRepository()
     val panelRepository: PanelRepository = PanelRepository()
 
+    var isCreate = true
 
     fun getPanelList() = panelRepository.getAll()
 
@@ -33,6 +34,15 @@ class WorkViewModel : ViewModel() {
         liveWork.value = work2
     }
 
+    fun loadWorkList(id: Int){
+        isCreate = false
+        liveWorkList.value =  repository.getAllBySessionId(id)
+    }
+
+    fun clearWorkList(){
+        isCreate = true
+        liveWorkList.value  = mutableListOf()
+    }
 
     var workList = mutableListOf<Work>()
     var liveWorkList = MutableLiveData<List<Work>>()
@@ -47,6 +57,10 @@ class WorkViewModel : ViewModel() {
     fun setPanelId(id: Int) {
         work2.panelId = id
         setWork()
+    }
+
+    fun setPanelColor(color: Int){
+        work2.color = color
     }
 
     fun setPanelNumber(number: Int) {

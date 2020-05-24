@@ -16,6 +16,10 @@ class AuthorizationFragment : BaseFragment() {
 
     var navigator: Navigator? = null
 
+    override fun getName(): String {
+        return "AuthorizationFragment"
+    }
+
     override fun getLayout(): Int =
         R.layout.fragment_authorization
 
@@ -50,4 +54,6 @@ class AuthorizationFragment : BaseFragment() {
         super.onAttach(context)
         navigator = context as Navigator
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.yaroshevich.podacha.repositories
 
 import com.yaroshevich.podacha.models.PodachaItem
-import com.yaroshevich.podacha.models.Session
 import java.util.*
 
 class PodachaRepository: repository<PodachaItem> {

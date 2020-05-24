@@ -10,24 +10,25 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
-import com.yaroshevich.podacha.fragments.AuthorizationFragment
-import com.yaroshevich.podacha.fragments.WorkFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.interfaces.Navigator
 import com.yaroshevich.podacha.room.entities.Panel
+import com.yaroshevich.podacha.viewModel.SessionViewModel
 import com.yaroshevich.podacha.viewModel.WorkViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_panel.view.*
+import kotlinx.android.synthetic.main.dialog_add_work_element.view.*
 
 
-class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapter.ItemClickListener  {
+class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
+    BaseAdapter.ItemClickListener {
 
     var navController: NavController? = null
     private val model: WorkViewModel by viewModels()
+    private val workSessionViewModel: SessionViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +51,13 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapte
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_add -> navigate(R.id.workFragment)
+            R.id.action_add -> {
+                // model.isCreate = true
+                //  model.clearWorkList()
+
+                workSessionViewModel.createSession()
+                navigate(R.id.workFragment)
+            }
 
         }
 
@@ -69,8 +76,11 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapte
     }
 
 
+    //Navigation
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     override fun navigate(screen: Int) {
-        when(screen){
+        when (screen) {
             R.id.sessionFragment -> navigateToSessionScreen(screen)
 
             R.id.workFragment -> navigateToWorkScreen(screen)
@@ -79,43 +89,40 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapte
         }
     }
 
-    //Navigation
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    fun navigateToSessionScreen(id: Int){
+    fun navigateToSessionScreen(id: Int) {
+        navController?.navigate(id)
         toolbar.background = getDrawable(R.color.colorReg)
         toolbar.visibility = View.VISIBLE
         setSupportActionBar(toolbar)
-        navController?.navigate(id)
+
 
     }
 
-    fun navigateToPanelDetailScreen(id: Int){
+    fun navigateToPanelDetailScreen(id: Int) {
         navController?.navigate(id)
     }
 
-    fun navigateToPanelListScreen(id: Int){
+    fun navigateToPanelListScreen(id: Int) {
         navController?.navigate(id)
     }
 
-    fun navigateToWorkScreen(id: Int){
+    fun navigateToWorkScreen(id: Int) {
         navController?.navigate(id)
     }
 
-    fun navigateToAddPanelDialog(id:Int){
+    fun navigateToAddPanelDialog(id: Int) {
         navController?.navigate(id)
     }
-
 
 
     //listeners
     /////////////////////////////////////////////////////////
 
     override fun click(id: Int) {
-        when(id){
+        when (id) {
             1 -> true
             2 -> createAddPanelDialog()
-
+            3 -> chooseColorDialog()
 
         }
     }
@@ -127,17 +134,35 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID, BaseAdapte
     //Dialogs
     ///////////////////////////////////////////////////////////////////
 
-    fun createAddPanelDialog(){
+    private fun createAddPanelDialog() {
         val dialog = AlertDialog.Builder(this)
         val view = layoutInflater.inflate(R.layout.dialog_add_panel, null, false)
         dialog.apply {
             setView(view)
-            setPositiveButton("Принять", DialogInterface.OnClickListener(){ dialogInterface: DialogInterface, i: Int ->
-                model.addPanel(Panel(0, view.name.text.toString()))
-            })
+            setPositiveButton(
+                "Принять",
+                DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                    model.addPanel(Panel(0, view.name.text.toString()))
+                })
 
+        }
 
-0        }
+        dialog.show()
+    }
+
+    private fun chooseColorDialog(){
+        val dialog = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_choise_color, null, false)
+        dialog.apply {
+            setView(view)
+            setPositiveButton(
+                "Принять",
+                DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+
+                    model.setPanelColor(1)
+                })
+
+        }
 
         dialog.show()
     }

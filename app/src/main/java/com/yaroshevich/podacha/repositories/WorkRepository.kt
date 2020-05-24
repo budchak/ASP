@@ -1,7 +1,5 @@
 package com.yaroshevich.podacha.repositories
 
-import android.app.Application
-import androidx.lifecycle.LiveData
 import com.yaroshevich.podacha.App
 import com.yaroshevich.podacha.room.entities.Work
 
@@ -12,6 +10,8 @@ class WorkRepository {
 
 
     fun getAll()= workDao?.getAll()
+
+    fun getAllBySessionId(id: Int) = workDao?.getBySessionId(id)
 
 
      fun create(item: Work) {
