@@ -20,7 +20,7 @@ import com.yaroshevich.podacha.viewModel.SessionViewModel
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_panel.view.*
-import kotlinx.android.synthetic.main.dialog_add_work_element.view.*
+import kotlinx.android.synthetic.main.dialog_choise_color.view.*
 
 
 class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
@@ -150,16 +150,32 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
         dialog.show()
     }
 
-    private fun chooseColorDialog(){
+    private fun chooseColorDialog() {
         val dialog = AlertDialog.Builder(this)
         val view = layoutInflater.inflate(R.layout.dialog_choise_color, null, false)
+
+        view.apply {
+            radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                val color = when (checkedId) {
+                    R.id.radioButton -> 1
+                    R.id.radioButton2 -> 2
+                    R.id.radioButton3 -> 3
+                    else -> 1
+                }
+                model.setPanelColor(color)
+            }
+        }
+
+
+
+
         dialog.apply {
             setView(view)
             setPositiveButton(
                 "Принять",
                 DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
 
-                    model.setPanelColor(1)
+                    //  model.setPanelColor(1)
                 })
 
         }

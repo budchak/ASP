@@ -8,9 +8,11 @@ import androidx.lifecycle.Observer
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.viewModel.WorkViewModel
+import kotlinx.android.synthetic.main.dialog_add_work_element.*
 import kotlinx.android.synthetic.main.dialog_add_work_element.view.*
+import kotlinx.android.synthetic.main.dialog_add_work_element.view.colorButton
 
-class PanelDetailFragment: FragmentWithNavigation() {
+class PanelDetailFragment : FragmentWithNavigation() {
 
     private var clickListenerID: ClickListenerID? = null
     private val model: WorkViewModel by activityViewModels()
@@ -30,7 +32,7 @@ class PanelDetailFragment: FragmentWithNavigation() {
             nameButton.setOnClickListener {
                 navigator?.navigate(R.id.panelListFragment)
             }
-            colorButton.setOnClickListener{
+            colorButton.setOnClickListener {
                 clickListenerID?.click(3)
             }
             applyButton.setOnClickListener {
@@ -43,7 +45,12 @@ class PanelDetailFragment: FragmentWithNavigation() {
 
         model.getTempWork()?.observe(viewLifecycleOwner, Observer {
 
-           view.nameButton.setText((model.getPanel(it.panelId))?.name)
+            view.nameButton.setText((model.getPanel(it.panelId))?.name)
+            colorButton.text = when(model.work2.color){
+                1 -> "Белый"
+                2 -> "серый"
+                else -> "Белый"
+            }
         })
 
     }

@@ -61,6 +61,7 @@ class WorkViewModel : ViewModel() {
 
     fun setPanelColor(color: Int){
         work2.color = color
+        setWork()
     }
 
     fun setPanelNumber(number: Int) {
