@@ -1,5 +1,6 @@
 package com.yaroshevich.podacha.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -12,9 +13,10 @@ import com.yaroshevich.podacha.adapters.WorkHeaderHolder
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.fragment_work.*
 
-class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
+class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click {
 
     private val model: WorkViewModel by activityViewModels()
+
 
     //слушатель для обратки нажатий на хедер списка
     override fun click() {
@@ -25,7 +27,7 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
     }
 
     override fun getName(): String {
-       return "WorkFragment"
+        return "WorkFragment"
     }
 
     override fun getLayout() = R.layout.fragment_work
@@ -33,7 +35,8 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = WorkAdapter()
+
+        val adapter = WorkAdapter(requireActivity().applicationContext)
 
         adapter.apply {
             setListener(this@WorkFragment)
@@ -45,6 +48,7 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
         })
 
 
+
         recyclerView.apply {
 
             this.adapter = adapter
@@ -52,7 +56,7 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
 
         }
         applyButton.apply {
-            when(model.isCreate) {
+            when (model.isCreate) {
                 true -> visibility = View.VISIBLE
                 false -> visibility = View.GONE
             }
@@ -64,12 +68,9 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click{
         }
 
 
-
-
-
-
-
     }
 
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
 }

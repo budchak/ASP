@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_add -> {
-                // model.isCreate = true
-                //  model.clearWorkList()
+                 model.isCreate = true
+                 model.clearWorkList()
 
                 workSessionViewModel.createSession()
                 navigate(R.id.workFragment)
