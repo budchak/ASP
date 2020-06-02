@@ -9,6 +9,8 @@ class TimeRepository {
 
     fun getAll() = timeDao?.getAll()
 
+    fun getAllById(id: Int) = timeDao?.getById(id)
+
     fun create(item: Time) {
        timeDao?.insert(item)
     }

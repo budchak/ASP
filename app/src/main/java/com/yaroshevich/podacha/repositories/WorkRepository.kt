@@ -19,7 +19,7 @@ class WorkRepository {
     }
 
      fun update(item: Work) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        workDao?.update(item)
     }
 
     fun delete(item: Work) {

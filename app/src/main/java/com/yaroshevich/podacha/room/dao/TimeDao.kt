@@ -2,17 +2,16 @@ package com.yaroshevich.podacha.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.yaroshevich.podacha.room.entities.Session
 import com.yaroshevich.podacha.room.entities.Time
 
 @Dao
 interface TimeDao {
 
     @Query("SELECT * FROM time")
-    fun getAll(): LiveData<List<Time>>
+    fun getAll(): List<Time>
 
-    @Query("SELECT * FROM time WHERE id = :id")
-    fun getById(id: Long): Time
+    @Query("SELECT * FROM time WHERE workId = :id")
+    fun getById(id: Int): List<Time>
 
     @Insert
     fun insert(employee: Time)

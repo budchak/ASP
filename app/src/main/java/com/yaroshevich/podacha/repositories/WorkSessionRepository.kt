@@ -6,5 +6,10 @@ class WorkSessionRepository {
 
     var workSession: WorkSession? = null
 
+    fun getAll(){
+
+
+    }
+
 
 }

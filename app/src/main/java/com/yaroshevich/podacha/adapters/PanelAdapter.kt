@@ -46,7 +46,7 @@ class PanelAdapter(var clickListenerID: ClickListenerID): BaseAdapter<Panel>(), 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(position){
-            0 ->  (holder as WorkHeaderHolder).bind(Work(2,2,2,2,2), getListener())
+            0 ->  (holder as WorkHeaderHolder).bind(Work(2,2,2,2,2,2), getListener())
             else -> (holder as PanelViewHolder).bind(items[position-1], getListener())
         }
 

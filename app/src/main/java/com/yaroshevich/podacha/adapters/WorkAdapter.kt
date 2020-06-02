@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.repositories.PanelRepository
 import com.yaroshevich.podacha.repositories.TimeRepository
+import com.yaroshevich.podacha.repositories.WorkRepository
 import com.yaroshevich.podacha.room.entities.Time
 import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.header_work.view.*
 import kotlinx.android.synthetic.main.item_work.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.Click {
 
@@ -85,6 +88,7 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
                         panelId = 2,
                         color = 2,
                         number = 2,
+                        currentCount = 2,
                         sessionID = 0
                     ), getListener()
                 )
@@ -99,12 +103,23 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
 
     class WorkViewHolder(view: View) : RecyclerView.ViewHolder(view), Binder<Work> {
 
+        val DATE_FORMAT_2 = "hh:mm a"
+
+        fun getCurrentDate(): String? {
+            val dateFormat = SimpleDateFormat(DATE_FORMAT_2)
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+            val today = Calendar.getInstance().time
+            return dateFormat.format(today)
+        }
 
         override fun bind(item: Work, listener: ItemClickListener?) {
             val timeAdapter = TimeAdapter()
             var repo = TimeRepository()
+            val workRepo = WorkRepository()
+            val calendar = Calendar.getInstance()
 
-            var items = repo.getAll()
+            var items = repo.getAllById(item.id)
+            timeAdapter.addItems( items!!)
             itemView.apply {
                 val panelRepo = PanelRepository()
                 if (item.color == 2) {
@@ -124,12 +139,19 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
                         }
                     }
                 }
-                val list = mutableListOf<Time>()
+
+                curentCount.text = item.currentCount.toString()
+                count.text = item.number.toString()
+
                 plus.setOnClickListener {
-                    list.add(Time(0,"15:05",2,2))
+
+                    val time = Time(0, getCurrentDate()!!,2,item.id)
                     Toast.makeText(context, "plus", Toast.LENGTH_SHORT).show()
-                    
-                    timeAdapter.items = list
+                    repo.create(time)
+                    item.currentCount++
+                    curentCount.text = item.currentCount.toString()
+                    workRepo.update(item)
+                    timeAdapter.items = (repo.getAllById(item.id)) as MutableList<Time>
                     timeAdapter.notifyDataSetChanged()
                 }
                 infoRecyclerView.apply {

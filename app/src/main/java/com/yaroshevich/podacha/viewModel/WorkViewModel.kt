@@ -49,7 +49,7 @@ class WorkViewModel : ViewModel() {
     var id = 0
     var sessionRepository = SessionRepository()
 
-    var work2 = Work(0, 0, 0, 0, 0)
+    var work2 = Work(0, 0, 0, 0, 0,2)
 
     var liveWork = MutableLiveData<Work>()
 
@@ -98,7 +98,7 @@ class WorkViewModel : ViewModel() {
     fun addPanel() {
         workList.add(work2)
         liveWorkList.value = workList
-        work2 = Work(0, 0, 0, 0, 2)
+        work2 = Work(0, 0, 0, 0, 2,2)
     }
 }
 

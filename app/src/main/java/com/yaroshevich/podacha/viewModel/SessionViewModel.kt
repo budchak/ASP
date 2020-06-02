@@ -23,6 +23,11 @@ class SessionViewModel : ViewModel() {
         session = WorkSession()
     }
 
+    fun loadSession(id: Int){
+
+    }
+
+
     fun addWork(work: Work){
         session?.addWork(work)
     }

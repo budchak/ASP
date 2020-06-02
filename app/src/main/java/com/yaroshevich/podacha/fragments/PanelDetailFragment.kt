@@ -36,7 +36,7 @@ class PanelDetailFragment : FragmentWithNavigation() {
                 clickListenerID?.click(3)
             }
             applyButton.setOnClickListener {
-
+                model.setPanelNumber(numberEditText.text.toString().toInt())
                 model.addPanel()
                 navigator?.navigate(R.id.workFragment)
             }
