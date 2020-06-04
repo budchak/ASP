@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.adapters.WorkAdapter
 import com.yaroshevich.podacha.adapters.WorkHeaderHolder
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_work.*
 
 class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click {
 
-    private val model: WorkViewModel by activityViewModels()
+    lateinit var model: WorkViewModel
 
 
     //слушатель для обратки нажатий на хедер списка
@@ -35,7 +35,7 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model = (activity as MainActivity).model
         val adapter = WorkAdapter(requireActivity().applicationContext)
 
         adapter.apply {
@@ -70,7 +70,4 @@ class WorkFragment : FragmentWithNavigation(), WorkHeaderHolder.Click {
 
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 }

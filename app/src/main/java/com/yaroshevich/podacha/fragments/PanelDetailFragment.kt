@@ -3,8 +3,10 @@ package com.yaroshevich.podacha.fragments
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
+
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.viewModel.WorkViewModel
@@ -15,8 +17,7 @@ import kotlinx.android.synthetic.main.dialog_add_work_element.view.colorButton
 class PanelDetailFragment : FragmentWithNavigation() {
 
     private var clickListenerID: ClickListenerID? = null
-    private val model: WorkViewModel by activityViewModels()
-
+    lateinit var model: WorkViewModel
     override fun getName(): String {
         return "PanelDetailFragment"
     }
@@ -27,7 +28,7 @@ class PanelDetailFragment : FragmentWithNavigation() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model = (activity as MainActivity).model
         view.apply {
             nameButton.setOnClickListener {
                 navigator?.navigate(R.id.panelListFragment)

@@ -4,9 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.adapters.PanelAdapter
@@ -14,11 +14,11 @@ import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.fragment_list_panel.*
 
-class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener{
+class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener {
 
     var clickListenerID: ClickListenerID? = null
 
-    private val model: WorkViewModel by activityViewModels()
+    lateinit var model: WorkViewModel
 
     override fun getLayout(): Int =
         R.layout.fragment_list_panel
@@ -26,7 +26,7 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model = (activity as MainActivity).model
         val adapter = clickListenerID?.let { PanelAdapter(it) }
         adapter?.setListener(this)
 
@@ -48,7 +48,7 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
     }
 
     override fun getName(): String {
-       return "PanelListFragment"
+        return "PanelListFragment"
     }
 
 
@@ -57,7 +57,6 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
         Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
         navigator?.navigate(R.id.panelDetailFragment)
     }
-
 
 
 }

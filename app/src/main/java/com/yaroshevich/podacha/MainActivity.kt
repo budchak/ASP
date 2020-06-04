@@ -7,9 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.yaroshevich.podacha.adapters.BaseAdapter
@@ -26,13 +26,18 @@ import kotlinx.android.synthetic.main.dialog_choise_color.view.*
 class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     BaseAdapter.ItemClickListener {
 
+    lateinit var  model: WorkViewModel
+
+    lateinit var workSessionViewModel : SessionViewModel
+
     var navController: NavController? = null
-    private val model: WorkViewModel by viewModels()
-    private val workSessionViewModel: SessionViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        model = ViewModelProvider(this).get(WorkViewModel::class.java)
+        workSessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
@@ -52,8 +57,8 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_add -> {
-                 model.isCreate = true
-                 model.clearWorkList()
+                // model.isCreate = true
+                //  model.clearWorkList()
 
                 workSessionViewModel.createSession()
                 navigate(R.id.workFragment)

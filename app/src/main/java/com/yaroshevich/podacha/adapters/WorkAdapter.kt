@@ -17,6 +17,7 @@ import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.header_work.view.*
 import kotlinx.android.synthetic.main.item_work.view.*
 import java.text.SimpleDateFormat
+import java.time.ZoneId
 import java.util.*
 
 class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.Click {
@@ -106,8 +107,11 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
         val DATE_FORMAT_2 = "hh:mm a"
 
         fun getCurrentDate(): String? {
+
+
+
             val dateFormat = SimpleDateFormat(DATE_FORMAT_2)
-            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"))
+            dateFormat.setTimeZone(TimeZone.getDefault())
             val today = Calendar.getInstance().time
             return dateFormat.format(today)
         }
@@ -146,6 +150,9 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
                 plus.setOnClickListener {
 
                     val time = Time(0, getCurrentDate()!!,2,item.id)
+
+
+
                     Toast.makeText(context, "plus", Toast.LENGTH_SHORT).show()
                     repo.create(time)
                     item.currentCount++

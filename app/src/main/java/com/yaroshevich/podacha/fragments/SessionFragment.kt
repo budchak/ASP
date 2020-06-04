@@ -3,21 +3,22 @@ package com.yaroshevich.podacha.fragments
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
+
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.adapters.SessionAdapter
-import com.yaroshevich.podacha.models.WorkSession
 import com.yaroshevich.podacha.viewModel.SessionViewModel
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.fragment_session.*
 
 class SessionFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener {
 
-    private val model: WorkViewModel by activityViewModels()
+    lateinit var model : WorkViewModel
 
-    private val workSessionViewModel: SessionViewModel by activityViewModels()
+    lateinit var workSessionViewModel: SessionViewModel
 
     override fun onItemClick(id: Int) {
         model.loadWorkList(id)
@@ -35,7 +36,8 @@ class SessionFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model = (activity as MainActivity).model
+        workSessionViewModel = (activity as MainActivity).workSessionViewModel
         val adapter = SessionAdapter()
         adapter.apply {
             setListener(this@SessionFragment)
@@ -49,7 +51,6 @@ class SessionFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener 
 
         }
     }
-
 
 
 }
