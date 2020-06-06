@@ -25,6 +25,9 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         (holder as Binder<T>).bind(items[position], listener)
     }
 
+
+
+
     abstract fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
     interface Binder<T> {

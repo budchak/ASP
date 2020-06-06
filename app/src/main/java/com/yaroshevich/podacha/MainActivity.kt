@@ -19,6 +19,7 @@ import com.yaroshevich.podacha.interfaces.Navigator
 import com.yaroshevich.podacha.room.entities.Panel
 import com.yaroshevich.podacha.viewModel.MainViewModel
 import com.yaroshevich.podacha.viewModel.SessionViewModel
+import com.yaroshevich.podacha.viewModel.ToolbarViewModel
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_panel.view.*
@@ -27,6 +28,9 @@ import kotlinx.android.synthetic.main.dialog_choise_color.view.*
 
 class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     BaseAdapter.ItemClickListener {
+
+
+    lateinit var toolbarViewModel: ToolbarViewModel
 
     lateinit var model: WorkViewModel
 
@@ -41,29 +45,35 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        model = ViewModelProvider(this).get(WorkViewModel::class.java)
+        initViewModels()
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
-        workSessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
-
-        navController = Navigation.findNavController(this,
-            R.id.nav_host_fragment
-        )
-
-        mainViewModel.isToolbarVisible.observe(this, Observer {
+        toolbarViewModel.isToolbarVisible.observe(this, Observer {
             showToolbar(it)
         })
 
 
     }
 
+
+    fun initViewModels(){
+        model = ViewModelProvider(this).get(WorkViewModel::class.java)
+
+        toolbarViewModel = ViewModelProvider(this).get(ToolbarViewModel::class.java)
+
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        workSessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
+    }
+
+
+
     private fun showToolbar(isVisible: Boolean) {
         toolbar.visibility = when (isVisible) {
             true -> View.VISIBLE
             false -> View.GONE
         }
-        View.GONE
         setStatusBarColor(1)
     }
 
