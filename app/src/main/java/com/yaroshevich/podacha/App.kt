@@ -11,6 +11,7 @@ class App : Application() {
 
     var database: AppDatabase? = null
 
+    var ToolbarStatus: Int = 0
     override fun onCreate() {
         super.onCreate()
         database =
@@ -18,6 +19,7 @@ class App : Application() {
                 .build()
         setInstance(this)
     }
+
 
 
     companion object {

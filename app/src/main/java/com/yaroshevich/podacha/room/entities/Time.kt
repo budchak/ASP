@@ -4,8 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Session(@PrimaryKey(autoGenerate = true)
-              var id: Int, var name: String, var date: String) {
-
-
-}
+class Time(@PrimaryKey(autoGenerate = true) var id: Int = 0, var time: String, var eventType: Int, var workId: Int)

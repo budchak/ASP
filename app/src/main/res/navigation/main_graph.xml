@@ -17,4 +17,8 @@
               android:label="PanelListFragment"/>
     <fragment android:id="@+id/panelDetailFragment" android:name="com.yaroshevich.podacha.fragments.PanelDetailFragment"
               android:label="PanelDetailFragment"/>
+    <fragment
+            android:id="@+id/addPanelDialogFragment"
+            android:name="com.yaroshevich.podacha.fragments.AddPanelDialogFragment"
+            android:label="AddPanelDialogFragment" />
 </navigation>

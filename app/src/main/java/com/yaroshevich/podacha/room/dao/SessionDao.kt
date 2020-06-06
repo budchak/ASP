@@ -13,6 +13,10 @@ interface SessionDao {
     @Query("SELECT * FROM session WHERE id = :id")
     fun getById(id: Long): Session
 
+    @Query("SELECT MAX(id) From session")
+    fun getMaxId(): Int
+
+
     @Insert
     fun insert(employee: Session)
 
@@ -21,4 +25,6 @@ interface SessionDao {
 
     @Delete
     fun delete(employee: Session)
+
+
 }

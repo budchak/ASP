@@ -4,19 +4,47 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.adapters.SessionAdapter
-import com.yaroshevich.podacha.models.Session
-import com.yaroshevich.podacha.repositories.SessionRepository
+import com.yaroshevich.podacha.viewModel.MainViewModel
+import com.yaroshevich.podacha.viewModel.SessionViewModel
+import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.fragment_session.*
 
-class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
+class SessionFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListener {
+
+    lateinit var model: WorkViewModel
+
+    lateinit var mainActivityViewModel: MainViewModel
+    lateinit var workSessionViewModel: SessionViewModel
+    val sessionAdapter = SessionAdapter()
 
 
     override fun onItemClick(id: Int) {
-        Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
+        if (id == 555555) {
+            sessionAdapter.items = model.sessionRepository.getAll()
+            sessionAdapter.notifyDataSetChanged()
+        } else {
+
+
+            if (id == 666666) {
+                model.loadWorkList(id)
+                model.isCreate = true
+                navigator?.navigate(R.id.workFragment)
+                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
+            } else {
+                model.loadWorkList(id)
+                model.isCreate = false
+                navigator?.navigate(R.id.workFragment)
+                Toast.makeText(context, "Click", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun getName(): String {
+        return "SessionFragment"
     }
 
     override fun getLayout() = R.layout.fragment_session
@@ -25,20 +53,33 @@ class SessionFragment : BaseFragment(), BaseAdapter.ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = SessionAdapter()
-        adapter.apply {
-            listener = this@SessionFragment
-            items = SessionRepository().getAll() as MutableList<Session>
+        initViewModels()
+
+
+        sessionAdapter.apply {
+            setListener(this@SessionFragment)
+            items = model.sessionRepository.getAll()
         }
 
 
         recuclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            this.adapter = adapter
+            this.adapter = sessionAdapter
 
         }
+
+        mainActivityViewModel.setToolbarVisibility(true)
     }
 
+    fun initViewModels() {
+
+        model = (activity as MainActivity).model
+
+        mainActivityViewModel = (activity as MainActivity).mainViewModel
+
+        workSessionViewModel = (activity as MainActivity).workSessionViewModel
+
+    }
 
 
 }

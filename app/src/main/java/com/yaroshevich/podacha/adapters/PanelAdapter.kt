@@ -5,13 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
+import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.room.entities.Panel
+import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.item_panel_info.view.*
 
-class PanelAdapter: BaseAdapter<Panel>(), WorkHeaderHolder.Click {
+class PanelAdapter(var clickListenerID: ClickListenerID): BaseAdapter<Panel>(), WorkHeaderHolder.Click {
 
+    //запустить диалог добавления новой панели
     override fun click() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        clickListenerID.click(2)
+    }
+
+    override fun getItemCount(): Int {
+        return items.size + 1
+    }
+
+
+    fun additems(list: List<Panel>){
+        items = list as MutableList<Panel>
+        notifyDataSetChanged()
     }
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
@@ -30,6 +43,14 @@ class PanelAdapter: BaseAdapter<Panel>(), WorkHeaderHolder.Click {
         0 -> 0
         else -> 1
     }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(position){
+            0 ->  (holder as WorkHeaderHolder).bind(Work(2,2,2,2,2,2), getListener())
+            else -> (holder as PanelViewHolder).bind(items[position-1], getListener())
+        }
+
+    }
 }
 
 class PanelViewHolder(view: View): RecyclerView.ViewHolder(view), BaseAdapter.Binder<Panel>{
@@ -37,6 +58,9 @@ class PanelViewHolder(view: View): RecyclerView.ViewHolder(view), BaseAdapter.Bi
     override fun bind(item: Panel, listener: BaseAdapter.ItemClickListener?) {
         itemView.apply {
             name.text = item.name
+        }
+        itemView.setOnClickListener {
+            listener?.onItemClick(item.id)
         }
     }
 
