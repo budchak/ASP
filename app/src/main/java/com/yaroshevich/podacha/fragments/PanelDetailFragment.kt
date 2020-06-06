@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.interfaces.ClickListenerID

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -16,6 +17,7 @@ import com.yaroshevich.podacha.adapters.BaseAdapter
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.interfaces.Navigator
 import com.yaroshevich.podacha.room.entities.Panel
+import com.yaroshevich.podacha.viewModel.MainViewModel
 import com.yaroshevich.podacha.viewModel.SessionViewModel
 import com.yaroshevich.podacha.viewModel.WorkViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,26 +28,43 @@ import kotlinx.android.synthetic.main.dialog_choise_color.view.*
 class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     BaseAdapter.ItemClickListener {
 
-    lateinit var  model: WorkViewModel
+    lateinit var model: WorkViewModel
 
-    lateinit var workSessionViewModel : SessionViewModel
+    lateinit var workSessionViewModel: SessionViewModel
 
-    var navController: NavController? = null
+    lateinit var mainViewModel: MainViewModel
+
+    lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         model = ViewModelProvider(this).get(WorkViewModel::class.java)
+
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         workSessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        navController = Navigation.findNavController(this,
+            R.id.nav_host_fragment
+        )
+
+        mainViewModel.isToolbarVisible.observe(this, Observer {
+            showToolbar(it)
+        })
 
 
+    }
 
-        toolbar.visibility = View.GONE
+    private fun showToolbar(isVisible: Boolean) {
+        toolbar.visibility = when (isVisible) {
+            true -> View.VISIBLE
+            false -> View.GONE
+        }
+        View.GONE
         setStatusBarColor(1)
-        //
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,13 +90,13 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
 
 
     fun setStatusBarColor(color: Int) {
-        val window = this.getWindow()
+        val window = this.window
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-        window.setStatusBarColor(this.getResources().getColor(R.color.colorReg))
+        window.statusBarColor = this.resources.getColor(R.color.colorReg)
     }
 
 
@@ -95,7 +114,7 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     }
 
     fun navigateToSessionScreen(id: Int) {
-        navController?.navigate(id)
+        navController.navigate(id)
         toolbar.background = getDrawable(R.color.colorReg)
         toolbar.visibility = View.VISIBLE
         setSupportActionBar(toolbar)
@@ -104,19 +123,19 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     }
 
     fun navigateToPanelDetailScreen(id: Int) {
-        navController?.navigate(id)
+        navController.navigate(id)
     }
 
     fun navigateToPanelListScreen(id: Int) {
-        navController?.navigate(id)
+        navController.navigate(id)
     }
 
     fun navigateToWorkScreen(id: Int) {
-        navController?.navigate(id)
+        navController.navigate(id)
     }
 
     fun navigateToAddPanelDialog(id: Int) {
-        navController?.navigate(id)
+        navController.navigate(id)
     }
 
 
@@ -146,7 +165,7 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
             setView(view)
             setPositiveButton(
                 "Принять",
-                DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
                     model.addPanel(Panel(0, view.name.text.toString()))
                 })
 
@@ -178,7 +197,7 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
             setView(view)
             setPositiveButton(
                 "Принять",
-                DialogInterface.OnClickListener() { dialogInterface: DialogInterface, i: Int ->
+                DialogInterface.OnClickListener { dialogInterface: DialogInterface, i: Int ->
 
                     //  model.setPanelColor(1)
                 })

@@ -21,4 +21,7 @@ interface TimeDao {
 
     @Delete
     fun delete(employee: Time)
+
+    @Delete
+    fun delete(time: List<Time>)
 }

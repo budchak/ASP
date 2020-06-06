@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.yaroshevich.podacha.App
 import com.yaroshevich.podacha.R
+import com.yaroshevich.podacha.repositories.SessionRepository
 import com.yaroshevich.podacha.room.entities.Session
 import kotlinx.android.synthetic.main.item_session.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SessionAdapter : BaseAdapter<Session>() {
+
 
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -27,11 +30,24 @@ class SessionAdapter : BaseAdapter<Session>() {
 
         override fun bind(item: Session, listener: ItemClickListener?) {
             itemView.apply {
+
+
+
                 name.text= item.name
 
                 container.setOnClickListener {
                    listener?.onItemClick(item.id)
                 }
+
+                delete.setOnClickListener {
+                    SessionRepository().delete(item)
+                    listener?.onItemClick(555555)
+                }
+                update.setOnClickListener {
+
+                    listener?.onItemClick(666666)
+                }
+
             }
 
 

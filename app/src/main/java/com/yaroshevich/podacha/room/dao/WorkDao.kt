@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.yaroshevich.podacha.room.entities.Work
 
+
 @Dao
 interface WorkDao {
 
@@ -24,4 +25,7 @@ interface WorkDao {
 
     @Delete
     fun delete(work: Work)
+
+    @Delete
+    fun delete(employee: List<Work?>?): Int
 }

@@ -6,15 +6,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.yaroshevich.podacha.App
+import com.yaroshevich.podacha.MainActivity
 import com.yaroshevich.podacha.R
 import com.yaroshevich.podacha.interfaces.Navigator
 import com.yaroshevich.podacha.models.Login
+import com.yaroshevich.podacha.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_authorization.view.*
 
 class AuthorizationFragment : BaseFragment() {
 
 
     var navigator: Navigator? = null
+    lateinit var mainActivityViewModel: MainViewModel
+
 
     override fun getName(): String {
         return "AuthorizationFragment"
@@ -29,14 +33,20 @@ class AuthorizationFragment : BaseFragment() {
 
         var app = activity?.application as App
 
-        view.apply {
+        initViewModels()
+        mainActivityViewModel.setToolbarVisibility(false)
 
+        view.apply {
 
 
             loginButton.setOnClickListener {
                 val login = loginEditText.text.toString()
                 val password = passwordEditText.text.toString()
-                Toast.makeText(activity, app.loginManager.isFind(Login(login, password)).toString(), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    activity,
+                    app.loginManager.isFind(Login(login, password)).toString(),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 navigator?.navigate(R.id.sessionFragment)
             }
@@ -55,5 +65,11 @@ class AuthorizationFragment : BaseFragment() {
         navigator = context as Navigator
     }
 
+    fun initViewModels() {
 
+
+        mainActivityViewModel = (activity as MainActivity).mainViewModel
+
+
+    }
 }
