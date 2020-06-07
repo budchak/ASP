@@ -5,52 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
+import com.yaroshevich.podacha.adapters.factories.ViewHolderFactory
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.room.entities.Panel
 import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.item_panel_info.view.*
 
-class PanelAdapter(var clickListenerID: ClickListenerID): BaseAdapter<Panel>(), WorkHeaderHolder.Click {
-
-    //запустить диалог добавления новой панели
-    override fun click() {
-        clickListenerID.click(2)
-    }
-
-    override fun getItemCount(): Int {
-        return items.size + 1
-    }
+class PanelAdapter(var clickListenerID: ClickListenerID): FHAdapter<Panel>(){
 
 
-    fun additems(list: List<Panel>){
-        items = list as MutableList<Panel>
-        notifyDataSetChanged()
-    }
-
-    override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
-        0 -> WorkHeaderHolder(LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent, false),this)
-        else -> PanelViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_panel_info,
-                parent,
-                false
-            )
-        )
-    }
+    override fun createViewHolderFactory(): ViewHolderFactory = PanelViewHolderFactory()
 
 
-    override fun getItemViewType(position: Int): Int = when (position) {
-        0 -> 0
-        else -> 1
-    }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(position){
-            0 ->  (holder as WorkHeaderHolder).bind(Work(2,2,2,2,2,2), getListener())
-            else -> (holder as PanelViewHolder).bind(items[position-1], getListener())
-        }
 
-    }
+
 }
 
 class PanelViewHolder(view: View): RecyclerView.ViewHolder(view), BaseAdapter.Binder<Panel>{
@@ -62,6 +31,26 @@ class PanelViewHolder(view: View): RecyclerView.ViewHolder(view), BaseAdapter.Bi
         itemView.setOnClickListener {
             listener?.onItemClick(item.id)
         }
+    }
+
+}
+
+class PanelHeader(view: View): HeaderViewHolder(view)
+
+class PanelFooter(view: View): FooterViewHolder(view)
+
+class PanelViewHolderFactory: ViewHolderFactory() {
+
+    override fun createHeader(parent: ViewGroup, viewType: Int): HeaderViewHolder {
+        return PanelHeader(LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent,false))
+    }
+
+    override fun createFooter(parent: ViewGroup, viewType: Int): FooterViewHolder {
+        return PanelFooter(LayoutInflater.from(parent.context).inflate(R.layout.item_panel_info, parent,false))
+    }
+
+    override fun createNormal(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+       return PanelViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent,false))
     }
 
 }

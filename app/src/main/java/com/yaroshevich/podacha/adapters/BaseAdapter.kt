@@ -1,11 +1,12 @@
 package com.yaroshevich.podacha.adapters
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var items = mutableListOf<T>()
+    var items = listOf<T>()
 
     private var listener: ItemClickListener? = null
 
@@ -16,6 +17,12 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     fun getListener() = listener
 
+    fun setData(data: List<T>){
+        items = data
+    }
+
+    abstract fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         getViewHolder(parent, viewType)
 
@@ -24,11 +31,6 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as Binder<T>).bind(items[position], listener)
     }
-
-
-
-
-    abstract fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
     interface Binder<T> {
 
@@ -41,4 +43,8 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun onItemClick(id: Int)
 
     }
+
+
 }
+
+
