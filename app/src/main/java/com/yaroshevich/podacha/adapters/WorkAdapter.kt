@@ -17,7 +17,6 @@ import com.yaroshevich.podacha.room.entities.Work
 import kotlinx.android.synthetic.main.header_work.view.*
 import kotlinx.android.synthetic.main.item_work.view.*
 import java.text.SimpleDateFormat
-import java.time.ZoneId
 import java.util.*
 
 class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.Click {
@@ -39,8 +38,8 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
         listenerHeader = listener
     }
 
-    fun setData(list: List<Work>) {
-        this.items = list as MutableList<Work>
+   override fun setData(list: List<Work>) {
+        super.setData(list)
         notifyDataSetChanged()
     }
 
@@ -75,12 +74,6 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
             false -> items.size
         }
 
-
-    fun add(item: Work) {
-        items.add(item)
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (isHeaderVisible) {
             when (position) {
@@ -109,7 +102,6 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
         fun getCurrentDate(): String? {
 
 
-
             val dateFormat = SimpleDateFormat(DATE_FORMAT_2)
             dateFormat.setTimeZone(TimeZone.getDefault())
             val today = Calendar.getInstance().time
@@ -123,7 +115,7 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
             val calendar = Calendar.getInstance()
 
             var items = repo.getAllById(item.id)
-            timeAdapter.addItems( items!!)
+            timeAdapter.addItems(items!!)
             itemView.apply {
                 val panelRepo = PanelRepository()
                 if (item.color == 2) {
@@ -149,7 +141,7 @@ class WorkAdapter(var context: Context) : BaseAdapter<Work>(), WorkHeaderHolder.
 
                 plus.setOnClickListener {
 
-                    val time = Time(0, getCurrentDate()!!,2,item.id)
+                    val time = Time(0, getCurrentDate()!!, 2, item.id)
 
 
 

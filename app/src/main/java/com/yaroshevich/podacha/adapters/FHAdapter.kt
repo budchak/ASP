@@ -16,11 +16,24 @@ abstract class FHAdapter<T> : BaseAdapter<T>() {
 
     private var viewHolderFactory: ViewHolderFactory = createViewHolderFactory()
 
+    var headerClickListener: ItemClickListener? = null
+        set(lister){
+            field = lister
+            notifyDataSetChanged()
+        }
+
+    var footerClickListener: ItemClickListener? = null
+        set(lister){
+            field = lister
+            notifyDataSetChanged()
+        }
+
     var headerView: View? = null
     var footerView: View? = null
 
     var isHeaderAvailable = false
     var isFooterAvailable = false
+
 
     abstract fun createViewHolderFactory(): ViewHolderFactory
 
@@ -29,9 +42,9 @@ abstract class FHAdapter<T> : BaseAdapter<T>() {
 
 
         return when (viewType) {
-            0 -> viewHolderFactory.createHeader()
-            1 -> viewHolderFactory.createFooter()
-            else -> viewHolderFactory.createNormal()
+            0 -> viewHolderFactory.createHeader(parent, viewType, headerClickListener)
+            1 -> viewHolderFactory.createFooter(parent, viewType, footerClickListener)
+            else -> viewHolderFactory.createNormal(parent, viewType, getListener())
 
         }
     }
@@ -39,12 +52,12 @@ abstract class FHAdapter<T> : BaseAdapter<T>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder is HeaderViewHolder) {
-            holder.addClickListener(getListener())
+            holder.bind()
             return
         }
 
         if (holder is FooterViewHolder) {
-            holder.addClickListener(getListener())
+            holder.bind()
             return
         }
 
@@ -87,6 +100,10 @@ abstract class ClickableViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 }
 
-abstract class HeaderViewHolder(view: View) : ClickableViewHolder(view)
+abstract class HeaderViewHolder(view: View) : ClickableViewHolder(view) {
+    abstract fun bind()
+}
 
-abstract class FooterViewHolder(view: View) : ClickableViewHolder(view)
+abstract class FooterViewHolder(view: View) : ClickableViewHolder(view) {
+    abstract fun bind()
+}

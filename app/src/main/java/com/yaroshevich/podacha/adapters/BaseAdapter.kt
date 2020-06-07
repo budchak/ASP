@@ -17,7 +17,7 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     fun getListener() = listener
 
-    fun setData(data: List<T>){
+   open fun setData(data: List<T>){
         items = data
     }
 
@@ -43,6 +43,8 @@ abstract class BaseAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         fun onItemClick(id: Int)
 
     }
+    
+
 
 
 }

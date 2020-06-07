@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -155,6 +156,8 @@ class MainActivity : AppCompatActivity(), Navigator, ClickListenerID,
     override fun click(id: Int) {
         when (id) {
             1 -> true
+            5555 -> Toast.makeText(this, "header click", Toast.LENGTH_SHORT).show()
+            6666 -> Toast.makeText(this, "footer click", Toast.LENGTH_SHORT).show()
             2 -> createAddPanelDialog()
             3 -> chooseColorDialog()
 

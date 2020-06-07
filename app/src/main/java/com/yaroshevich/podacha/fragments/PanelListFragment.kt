@@ -28,7 +28,14 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
         super.onViewCreated(view, savedInstanceState)
         model = (activity as MainActivity).model
         val adapter = clickListenerID?.let { PanelAdapter(it) }
-        adapter?.setListener(this)
+        adapter?.apply {
+
+            headerClickListener = this@PanelListFragment
+            footerClickListener = this@PanelListFragment
+            isFooterAvailable = true
+
+            setListener(this@PanelListFragment)
+        }
 
 
         recyclerView.apply {
@@ -37,7 +44,7 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
         }
 
         model.getPanelList()?.observe(viewLifecycleOwner, Observer {
-            adapter?.additems(it)
+            adapter?.setData(it)
         })
     }
 
@@ -45,6 +52,7 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
     override fun onAttach(context: Context) {
         super.onAttach(context)
         clickListenerID = context as ClickListenerID
+
     }
 
     override fun getName(): String {
@@ -53,9 +61,18 @@ class PanelListFragment : FragmentWithNavigation(), BaseAdapter.ItemClickListene
 
 
     override fun onItemClick(id: Int) {
-        model.setPanelId(id)
-        Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
-        navigator?.navigate(R.id.panelDetailFragment)
+
+        when (id) {
+            5555 -> clickListenerID?.click(id)
+            6666 -> clickListenerID?.click(id)
+            else -> {
+                model.setPanelId(id)
+                Toast.makeText(context, id.toString(), Toast.LENGTH_LONG).show()
+                navigator?.navigate(R.id.panelDetailFragment)
+            }
+        }
+
+
     }
 
 
