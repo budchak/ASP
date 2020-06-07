@@ -5,63 +5,93 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yaroshevich.podacha.R
+import com.yaroshevich.podacha.adapters.factories.ViewHolderFactory
 import com.yaroshevich.podacha.interfaces.ClickListenerID
 import com.yaroshevich.podacha.room.entities.Panel
-import com.yaroshevich.podacha.room.entities.Work
+import kotlinx.android.synthetic.main.header_work.view.*
 import kotlinx.android.synthetic.main.item_panel_info.view.*
 
-class PanelAdapter(var clickListenerID: ClickListenerID): BaseAdapter<Panel>(), WorkHeaderHolder.Click {
-
-    //запустить диалог добавления новой панели
-    override fun click() {
-        clickListenerID.click(2)
-    }
-
-    override fun getItemCount(): Int {
-        return items.size + 1
-    }
+class PanelAdapter(var clickListenerID: ClickListenerID) : FHAdapter<Panel>() {
 
 
-    fun additems(list: List<Panel>){
-        items = list as MutableList<Panel>
-        notifyDataSetChanged()
-    }
-
-    override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
-        0 -> WorkHeaderHolder(LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent, false),this)
-        else -> PanelViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_panel_info,
-                parent,
-                false
-            )
-        )
-    }
+    override fun createViewHolderFactory(): ViewHolderFactory = PanelViewHolderFactory()
 
 
-    override fun getItemViewType(position: Int): Int = when (position) {
-        0 -> 0
-        else -> 1
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(position){
-            0 ->  (holder as WorkHeaderHolder).bind(Work(2,2,2,2,2,2), getListener())
-            else -> (holder as PanelViewHolder).bind(items[position-1], getListener())
-        }
-
-    }
 }
 
-class PanelViewHolder(view: View): RecyclerView.ViewHolder(view), BaseAdapter.Binder<Panel>{
+class PanelViewHolder(view: View) : RecyclerView.ViewHolder(view), BaseAdapter.Binder<Panel> {
 
-    override fun bind(item: Panel, listener: BaseAdapter.ItemClickListener?) {
+    var listener: BaseAdapter.ItemClickListener? = null
+
+    override fun bind(item: Panel, listenerNPL: BaseAdapter.ItemClickListener?) {
+
         itemView.apply {
             name.text = item.name
         }
+
         itemView.setOnClickListener {
             listener?.onItemClick(item.id)
         }
+    }
+
+}
+
+class PanelHeader(view: View) : HeaderViewHolder(view){
+    override fun bind() {
+        itemView.addButton.setOnClickListener {
+            clickListener?.onItemClick(5555)
+        }
+    }
+
+}
+
+class PanelFooter(view: View) : FooterViewHolder(view){
+    override fun bind() {
+        itemView.addButton.setOnClickListener {
+            clickListener?.onItemClick(6666)
+        }
+    }
+
+}
+
+class PanelViewHolderFactory : ViewHolderFactory() {
+
+    override fun createHeader(
+        parent: ViewGroup,
+        viewType: Int,
+        listener: BaseAdapter.ItemClickListener?
+    ): HeaderViewHolder {
+
+        val holder = PanelHeader(
+            LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent, false)
+        )
+
+        holder.clickListener = listener
+
+        return holder
+    }
+
+    override fun createFooter(
+        parent: ViewGroup,
+        viewType: Int,
+        listener: BaseAdapter.ItemClickListener?
+    ): FooterViewHolder {
+        val holder = PanelFooter(
+            LayoutInflater.from(parent.context).inflate(R.layout.header_work, parent, false)
+        )
+        holder.clickListener = listener
+        return holder
+
+    }
+
+    override fun createNormal(parent: ViewGroup, viewType: Int, listener: BaseAdapter.ItemClickListener?): RecyclerView.ViewHolder {
+
+        val holder = PanelViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_panel_info, parent, false)
+        )
+        holder.listener = listener
+        return holder
+
     }
 
 }
